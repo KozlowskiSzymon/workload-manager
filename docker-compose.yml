@@ -1,0 +1,46 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=abc123
+      - POSTGRES_USER=workload
+      - POSTGRES_DB=workload
+    ports:
+      - "5432:5432"
+
+  workload-manager:
+    image: szymon2kozlowski/workload-manager:0.0.1-SNAPSHOT
+    ports:
+      - "9000:8080"
+    depends_on:
+      - cypher-worker
+      - prime-number-worker
+
+  cypher-worker:
+    image: szymon2kozlowski/cypher-worker:0.0.1-SNAPSHOT
+    ports:
+      - "9001:9000"
+    environment:
+      - SPRING_DATASOURCE_USERNAME=workload
+      - SPRING_DATASOURCE_PASSWORD=abc123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload
+    depends_on:
+      - db
+
+  prime-number-worker:
+    image: szymon2kozlowski/prime-number-worker:0.0.1-SNAPSHOT
+    ports:
+      - "9002:9000"
+    environment:
+      - SPRING_DATASOURCE_USERNAME=workload
+      - SPRING_DATASOURCE_PASSWORD=abc123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
