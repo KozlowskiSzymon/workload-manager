@@ -13,7 +13,7 @@ services:
       - "5432:5432"
 
   workload-manager:
-    image: szymon2kozlowski/workload-manager:0.0.2-SNAPSHOT
+    image: szymon2kozlowski/workload-manager:0.0.3-SNAPSHOT
     ports:
       - "9000:8080"
     environment:
@@ -26,14 +26,20 @@ services:
       - prime-number-worker
 
   cypher-worker:
-    image: szymon2kozlowski/cypher-worker:0.0.1-SNAPSHOT
+    image: szymon2kozlowski/cypher-worker:0.0.3-SNAPSHOT
     ports:
-      - "9001:9000"
+      - "9001:8082"
+    environment:
+      - SPRING_DATASOURCE_USERNAME=workload
+      - SPRING_DATASOURCE_PASSWORD=abc123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload?currentSchema=cypher
+    depends_on:
+      - db
 
   prime-number-worker:
     image: szymon2kozlowski/prime-number-worker:0.0.2-SNAPSHOT
     ports:
-      - "9002:9000"
+      - "9002:8081"
     environment:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
