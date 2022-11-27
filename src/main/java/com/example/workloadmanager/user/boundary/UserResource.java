@@ -1,6 +1,7 @@
 package com.example.workloadmanager.user.boundary;
 
-import com.example.workloadmanager.user.control.TaskAssembler;
+import com.example.workloadmanager.task.boundary.TaskDTO;
+import com.example.workloadmanager.task.control.TaskAssembler;
 import com.example.workloadmanager.user.control.UserAssembler;
 import com.example.workloadmanager.user.control.UserService;
 import lombok.RequiredArgsConstructor;

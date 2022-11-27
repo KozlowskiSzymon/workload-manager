@@ -1,5 +1,6 @@
-package com.example.workloadmanager.user.model;
+package com.example.workloadmanager.task.model;
 
+import com.example.workloadmanager.user.model.UserDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.example.workloadmanager.user.control;
+package com.example.workloadmanager.task.control;
 
-import com.example.workloadmanager.user.boundary.TaskDTO;
-import com.example.workloadmanager.user.model.TaskDO;
+import com.example.workloadmanager.task.boundary.TaskDTO;
+import com.example.workloadmanager.task.model.TaskDO;
 
 import java.util.List;
 

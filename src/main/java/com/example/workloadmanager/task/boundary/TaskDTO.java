@@ -1,4 +1,4 @@
-package com.example.workloadmanager.user.boundary;
+package com.example.workloadmanager.task.boundary;
 
 import lombok.Builder;
 import lombok.Data;
