@@ -2,9 +2,11 @@ package com.example.workloadmanager.task.control;
 
 import com.example.workloadmanager.task.boundary.TaskDTO;
 import com.example.workloadmanager.task.model.TaskDO;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TaskAssembler {
 
   public List<TaskDTO> toDTO(List<TaskDO> taskDOs) {

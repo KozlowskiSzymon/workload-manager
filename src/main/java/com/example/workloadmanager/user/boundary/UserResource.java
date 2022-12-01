@@ -21,15 +21,21 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 public class UserResource {
 
-  private UserService userService;
+  private final UserService userService;
 
-  private UserAssembler userAssembler;
+  private final UserAssembler userAssembler;
 
-  private TaskAssembler taskAssembler;
+  private final TaskAssembler taskAssembler;
 
   @GetMapping("/{userId}")
   public ResponseEntity<UserDTO> getUserData(@PathVariable("userId") long userId) {
     return ok(userAssembler.toDTO(userService.getUserData(userId)));
+  }
+
+  @GetMapping("/start")
+  public ResponseEntity<String> initializeUsers() {
+    userService.initiateUsers();
+    return ResponseEntity.ok("Initialization started!");
   }
 
   @GetMapping("/{userId}/tasks")

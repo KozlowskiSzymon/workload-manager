@@ -1,4 +1,3 @@
-insert into t_users(id, name) values (0,'Olivia');
 insert into t_users(id, name) values (1,'Amelia');
 insert into t_users(id, name) values (2,'Isla');
 insert into t_users(id, name) values (3,'Ava');

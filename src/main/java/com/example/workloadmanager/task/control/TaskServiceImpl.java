@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class TaskServiceImpl implements TaskService{
 
-  private TaskRepository taskRepository;
+  private final TaskRepository taskRepository;
 
   @Override
   public List<TaskDO> getByUserId(long userId) {

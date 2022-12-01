@@ -6,6 +6,8 @@ import com.example.workloadmanager.user.model.UserDO;
 import java.util.List;
 
 public interface UserService {
+
+  void initiateUsers();
   UserDO getUserData(long userId);
 
   List<TaskDO> getUserTasks(long userId);
