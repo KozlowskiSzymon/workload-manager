@@ -26,7 +26,7 @@ services:
       - prime-number-worker
 
   cypher-worker:
-    image: szymon2kozlowski/cypher-worker:0.0.3-SNAPSHOT
+    image: szymon2kozlowski/cypher-worker:0.0.4-SNAPSHOT
     ports:
       - "9001:8082"
     environment:
@@ -37,7 +37,7 @@ services:
       - db
 
   prime-number-worker:
-    image: szymon2kozlowski/prime-number-worker:0.0.2-SNAPSHOT
+    image: szymon2kozlowski/prime-number-worker:0.0.3-SNAPSHOT
     ports:
       - "9002:8081"
     environment:

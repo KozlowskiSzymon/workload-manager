@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class CypherConfig {
 
-  @Value("http://localhost:8082/api/cypher")
+  @Value("${app.connection.cypher.url}")
   private String url;
 }

@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class PrimeConfig {
 
-  @Value("http://localhost:8081/api/prime")
+  @Value("${app.connection.prime.url}")
   private String url;
 }
