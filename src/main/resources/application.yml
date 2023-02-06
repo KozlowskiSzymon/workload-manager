@@ -24,7 +24,7 @@ reactor:
 
 management:
   server:
-    port: 9999
+    port: 8080
   endpoints:
     web:
       base-path: /actuator
