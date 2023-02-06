@@ -28,7 +28,9 @@ services:
       - prime-number-worker
 
   cypher-worker:
-    image: szymon2kozlowski/cypher-worker:0.0.4-SNAPSHOT
+    image: szymon2kozlowski/cypher-worker:0.0.5-SNAPSHOT
+    ports:
+      - "9002:8082"
     environment:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
@@ -37,7 +39,9 @@ services:
       - db
 
   prime-number-worker:
-    image: szymon2kozlowski/prime-number-worker:0.0.3-SNAPSHOT
+    image: szymon2kozlowski/prime-number-worker:0.0.4-SNAPSHOT
+    ports:
+      - "9001:8081"
     environment:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123

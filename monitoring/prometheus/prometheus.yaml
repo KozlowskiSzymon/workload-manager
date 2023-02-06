@@ -6,3 +6,9 @@ scrape_configs:
       - targets: ['host.docker.internal:9000']
         labels:
           application: 'Workload manager'
+      - targets: ['host.docker.internal:9001']
+        labels:
+          application: 'Prime number worker'
+      - targets: ['host.docker.internal:9002']
+        labels:
+          application: 'Cypher worker'
