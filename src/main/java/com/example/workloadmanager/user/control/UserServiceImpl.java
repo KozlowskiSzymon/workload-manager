@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService{
     var users = userRepository.findAll();
     Executor executor = Executors.newFixedThreadPool(10);
     users.forEach(user -> executor.execute(() -> generateKeyForUser(user)));
+    taskService.cleanTasksTable();
   }
 
   @Override
@@ -43,7 +44,13 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public List<TaskDO> getUserTasks(long userId) {
-    return taskService.getByUserId(userId);
+    var user = userRepository.getReferenceById(userId);
+    var tasks = taskService.getByUserId(userId);
+    tasks.forEach( task -> {
+      task.setCompanyName(cypherESI.decrypt(CypherDTO.builder().value(task.getCompanyName()).publicKey(user.getKey()).userId(user.getId()).build()));
+      task.setStockVolume(cypherESI.decrypt(CypherDTO.builder().value(task.getStockVolume()).publicKey(user.getKey()).userId(user.getId()).build()));
+    });
+    return tasks;
   }
 
   @Override

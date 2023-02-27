@@ -24,4 +24,9 @@ public class TaskServiceImpl implements TaskService{
   public TaskDO save(TaskDO task) {
     return taskRepository.save(task);
   }
+
+  @Override
+  public void cleanTasksTable() {
+    taskRepository.deleteAll();
+  }
 }

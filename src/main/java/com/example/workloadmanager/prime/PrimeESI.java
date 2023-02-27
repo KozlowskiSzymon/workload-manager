@@ -11,11 +11,12 @@ public class PrimeESI {
 
   public PrimeESI(PrimeConfig config) {
     this.config = config;
-    this.client = WebClient.builder().baseUrl(config.getUrl()).build();
+    this.client = WebClient.builder().baseUrl(config.getBasicUrl()).build();
   }
+
   public long getRandomPrime() {
     var primeString = client.get()
-        .uri(config.getUrl() + "/random")
+        .uri(config.getBasicUrl() + config.getRandomPath())
         .retrieve()
         .bodyToMono(String.class)
         .block();

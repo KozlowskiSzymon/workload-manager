@@ -9,5 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class PrimeConfig {
 
   @Value("${app.connection.prime.url}")
-  private String url;
+  private String basicUrl;
+  @Value("${app.connection.prime.random-path:/api/prime/random}")
+  private String randomPath;
 }

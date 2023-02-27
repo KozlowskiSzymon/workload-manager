@@ -8,4 +8,6 @@ public interface TaskService {
   List<TaskDO> getByUserId(long userId);
 
   TaskDO save(TaskDO task);
+
+    void cleanTasksTable();
 }

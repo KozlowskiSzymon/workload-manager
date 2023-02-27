@@ -12,28 +12,31 @@ public class CypherESI {
 
   public CypherESI(CypherConfig config) {
     this.config = config;
-    this.client = WebClient.builder().baseUrl(config.getUrl()).build();
+    this.client = WebClient.builder().baseUrl(config.getBasicUrl()).build();
   }
 
   public String encrypt(CypherDTO dto) {
     return client.post()
-        .uri(config.getUrl() + "/encrypt")
+        .uri(config.getBasicUrl() + config.getEncryptPath())
         .body(BodyInserters.fromValue(dto))
         .retrieve()
         .bodyToMono(String.class)
         .block();
   }
+
   public String decrypt(CypherDTO dto) {
     return client.post()
-        .uri(config.getUrl() + "/decrypt")
+        .uri(config.getBasicUrl() + config.getDecryptPath())
         .body(BodyInserters.fromValue(dto))
         .retrieve()
         .bodyToMono(String.class)
         .block();
   }
+
   public String generateKey(long userId) {
-    return client.get()
-        .uri(uriBuilder -> uriBuilder.path("/keys").queryParam("userId", userId).build())
+    return client.post()
+        .uri(config.getBasicUrl() + config.getKeysPath())
+        .body(BodyInserters.fromValue(userId))
         .retrieve()
         .bodyToMono(String.class)
         .block();
