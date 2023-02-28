@@ -1,10 +1,12 @@
 package com.example.workloadmanager.cypher;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@Slf4j
 public class CypherESI {
 
   private final CypherConfig config;
@@ -16,6 +18,7 @@ public class CypherESI {
   }
 
   public String encrypt(CypherDTO dto) {
+    log.info("CypherESI.encrypt POST " + config.getBasicUrl() + config.getEncryptPath());
     return client.post()
         .uri(config.getBasicUrl() + config.getEncryptPath())
         .body(BodyInserters.fromValue(dto))
@@ -25,6 +28,7 @@ public class CypherESI {
   }
 
   public String decrypt(CypherDTO dto) {
+    log.info("CypherESI.decrypt POST " + config.getBasicUrl() + config.getDecryptPath());
     return client.post()
         .uri(config.getBasicUrl() + config.getDecryptPath())
         .body(BodyInserters.fromValue(dto))
@@ -34,6 +38,7 @@ public class CypherESI {
   }
 
   public String generateKey(long userId) {
+    log.info("CypherESI.generateKey POST " + config.getBasicUrl() + config.getKeysPath());
     return client.post()
         .uri(config.getBasicUrl() + config.getKeysPath())
         .body(BodyInserters.fromValue(userId))
