@@ -39,6 +39,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload?currentSchema=cypher
+      - APP_CYPHER_KEY_SIZE=4096
     depends_on:
       - db
 
