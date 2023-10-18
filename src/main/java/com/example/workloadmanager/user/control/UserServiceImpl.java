@@ -16,7 +16,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +49,9 @@ public class UserServiceImpl implements UserService{
     var user = userRepository.getReferenceById(userId);
     var tasks = taskService.getByUserId(userId);
     tasks.forEach( task -> {
-      task.setCompanyName(cypherESI.decrypt(CypherDTO.builder().value(task.getCompanyName()).publicKey(user.getKey()).userId(user.getId()).build()));
-      task.setStockVolume(cypherESI.decrypt(CypherDTO.builder().value(task.getStockVolume()).publicKey(user.getKey()).userId(user.getId()).build()));
+      task.setCompanyName(cypherESI.decrypt(
+      new CypherDTO(task.getCompanyName(), user.getKey(), user.getPrivateKey(), user.getId())));
+      task.setStockVolume(cypherESI.decrypt(new CypherDTO(task.getCompanyName(), user.getKey(), user.getPrivateKey(), user.getId())));
     });
     return tasks;
   }
@@ -71,28 +74,21 @@ public class UserServiceImpl implements UserService{
 
   private String getStockVolume(long userId) {
     var stockVolume = primeESI.getRandomPrime();
-    var encryptRequest = CypherDTO.builder()
-        .value(String.valueOf(stockVolume))
-        .publicKey(getUserData(userId).getKey())
-        .userId(userId)
-        .build();
+    var encryptRequest = new CypherDTO(String.valueOf(stockVolume), getUserData(userId).getKey(), getUserData(userId).getPrivateKey(), userId);
     return cypherESI.encrypt(encryptRequest);
   }
 
   private String getCompanyName(long userId) {
     var companyName = UUID.randomUUID() + "-" + primeESI.getRandomPrime();
-    var encryptRequest = CypherDTO.builder()
-        .value(companyName)
-        .publicKey(getUserData(userId).getKey())
-        .userId(userId)
-        .build();
+    var encryptRequest = new CypherDTO(companyName, getUserData(userId).getKey(), getUserData(userId).getPrivateKey(), userId);
     return cypherESI.encrypt(encryptRequest);
   }
 
   private void generateKeyForUser(UserDO user) {
     log.info("[Manager] Generating public key for user with id: [{}]...", user.getId());
-    var key = cypherESI.generateKey(user.getId());
-    user.setKey(key);
+    var dto = cypherESI.generateKey(user.getId());
+    user.setKey(dto.getPublicKey());
+    user.setPrivateKey(dto.getPrivateKey());
     userRepository.save(user);
     log.info("[Manager] Saved key for user with id: [{}].", user.getId());
   }

@@ -33,4 +33,7 @@ public class UserDO {
   @Column(name = "key")
   private String key;
 
+  @Column(name = "privateKey")
+  private String privateKey;
+
 }

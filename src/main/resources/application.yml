@@ -3,13 +3,17 @@ server:
 app:
   connection:
     prime:
-      url: http://localhost:8081/api/prime
+      url: http://localhost:8081
     cypher:
-      url: http://localhost:8082/api/cypher
+      url: http://localhost:8082
 
 spring:
+  reactor:
+    netty:
+      pool:
+        maxIdleTime: 45000
   datasource:
-    url: jdbc:postgresql://localhost:5432/workload?currentSchema=workload
+    url: jdbc:postgresql://127.0.0.1:5432/workload?currentSchema=workload
     username: workload
     password: abc123
   jpa:

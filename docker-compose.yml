@@ -13,7 +13,7 @@ services:
       - "5432:5432"
 
   workload-manager:
-    image: szymon2kozlowski/workload-manager:0.1.0
+    image: szymon2kozlowski/workload-manager:0.2.4
     deploy:
       resources:
         limits:
@@ -28,9 +28,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload?currentSchema=workload
-      - APP_CONNECTION_PRIME_URL=http://workload-manager-prime-number-worker-1:8081
+      - APP_CONNECTION_PRIME_URL=http://prime-number-worker:8081
       - APP_CONNECTION_PRIME_RANDOM_PATH=/api/prime/random
-      - APP_CONNECTION_CYPHER_URL=http://workload-manager-cypher-worker-1:8082
+      - APP_CONNECTION_CYPHER_URL=http://cypher-worker:8082
       - APP_CONNECTION_CYPHER_ENCRYPT_PATH=/api/cypher/encrypt
       - APP_CONNECTION_CYPHER_DECRYPT_PATH=/api/cypher/decrypt
       - APP_CONNECTION_CYPHER_KEYS_PATH=/api/cypher/keys
@@ -40,7 +40,7 @@ services:
       - prime-number-worker
 
   cypher-worker:
-    image: szymon2kozlowski/cypher-worker:0.1.0
+    image: szymon2kozlowski/cypher-worker:0.2.1
     deploy:
       resources:
         limits:
@@ -55,12 +55,13 @@ services:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload?currentSchema=cypher
-      - APP_CYPHER_KEY_SIZE=4096
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.112.1/workload?currentSchema=cypher
+      - APP_CYPHER_KEY_SIZE=1024
     depends_on:
       - db
 
   prime-number-worker:
-    image: szymon2kozlowski/prime-number-worker:0.1.0
+    image: szymon2kozlowski/prime-number-worker:0.2.1
     deploy:
       resources:
         limits:
@@ -75,6 +76,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=workload
       - SPRING_DATASOURCE_PASSWORD=abc123
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/workload?currentSchema=prime
+      - APP_PRIME_ARRAY_SIZE_MAX=1000
     depends_on:
       - db
 

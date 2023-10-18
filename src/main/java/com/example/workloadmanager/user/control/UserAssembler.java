@@ -12,6 +12,7 @@ public class UserAssembler {
         .id(userDO.getId())
         .name(userDO.getName())
         .key(userDO.getKey())
+        .privateKey(userDO.getPrivateKey())
         .build();
   }
 }

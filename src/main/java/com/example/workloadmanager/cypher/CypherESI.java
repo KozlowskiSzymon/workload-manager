@@ -37,13 +37,13 @@ public class CypherESI {
         .block();
   }
 
-  public String generateKey(long userId) {
+  public CypherDTO generateKey(long userId) {
     log.info("CypherESI.generateKey POST " + config.getBasicUrl() + config.getKeysPath());
     return client.post()
         .uri(config.getBasicUrl() + config.getKeysPath())
         .body(BodyInserters.fromValue(userId))
         .retrieve()
-        .bodyToMono(String.class)
+        .bodyToMono(CypherDTO.class)
         .block();
   }
 }
